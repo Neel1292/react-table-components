@@ -321,7 +321,7 @@ The package uses Tailwind CSS. Ensure you have Tailwind configured in your proje
 module.exports = {
   content: [
     './src/**/*.{js,jsx,ts,tsx}',
-    './node_modules/@yourorg/react-table-components/dist/**/*.{js,mjs}',
+    './node_modules/table-components-react/dist/**/*.{js,mjs}',
   ],
   // ... rest of config
 };

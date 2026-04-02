@@ -1,5 +1,5 @@
 {
-  "name": "@neel12/react-table-components",
+  "name": "table-components-react",
   "version": "1.0.0",
   "description": "A comprehensive React table component library with advanced filtering, sorting, pagination, and customizable actions",
   "main": "dist/index.cjs",
