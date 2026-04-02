@@ -1,0 +1,32 @@
+# Source files
+src/
+.vscode/
+.idea/
+
+# Config files
+tsconfig.json
+tsup.config.ts
+
+# Development files
+*.log
+.env*
+
+# Test files
+**/*.test.ts
+**/*.test.tsx
+**/*.spec.ts
+**/*.spec.tsx
+
+# Documentation (optional - remove if you want to include)
+# README.md
+
+# Git
+.git/
+.gitignore
+
+# Build artifacts
+*.tsbuildinfo
+node_modules/
+
+# Public assets (not needed in npm package)
+public/
