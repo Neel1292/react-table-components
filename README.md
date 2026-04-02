@@ -17,11 +17,11 @@ A comprehensive, production-ready React table component library with advanced fi
 ## Installation
 
 ```bash
-npm install @yourorg/react-table-components
+npm install table-components-react
 # or
-yarn add @yourorg/react-table-components
+yarn add table-components-react
 # or
-pnpm add @yourorg/react-table-components
+pnpm add table-components-react
 ```
 
 ## Prerequisites
@@ -44,13 +44,13 @@ You also need Tailwind CSS configured in your project.
 Import the CSS in your main entry file:
 
 ```tsx
-import '@yourorg/react-table-components/dist/index.css';
+import 'table-components-react/dist/index.css';
 ```
 
 ### 2. Basic Usage
 
 ```tsx
-import { BasicTable, ColumnBuilder } from '@yourorg/react-table-components';
+import { BasicTable, ColumnBuilder } from 'table-components-react';
 
 interface Product {
   id: number;
@@ -140,7 +140,7 @@ const column = new ColumnBuilder<Product>()
 Advanced filter component with multiple filter types.
 
 ```typescript
-import { CommonFilter, FilterType } from '@yourorg/react-table-components';
+import { CommonFilter, FilterType } from 'table-components-react';
 
 const filters = [
   {
@@ -205,7 +205,7 @@ const tableHeader = {
 ### With Action Buttons
 
 ```typescript
-import { ActionColumnBuilder, ActionButtonBuilder } from '@yourorg/react-table-components';
+import { ActionColumnBuilder, ActionButtonBuilder } from 'table-components-react';
 
 const actionColumn = new ActionColumnBuilder()
   .show(true)
@@ -358,4 +358,4 @@ MIT -->
 
 ## Support
 
-For issues and questions, please open an issue on [GitHub](https://github.com/yourusername/react-table-components/issues).
+For issues and questions, please open an issue on [GitHub](https://github.com/Neel1292/table-components-react/issues).
