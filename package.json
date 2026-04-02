@@ -1,6 +1,6 @@
 {
   "name": "table-components-react",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A comprehensive React table component library with advanced filtering, sorting, pagination, and customizable actions",
   "main": "dist/index.cjs",
   "module": "dist/index.mjs",
