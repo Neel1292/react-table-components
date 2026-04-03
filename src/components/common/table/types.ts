@@ -70,11 +70,15 @@ export interface BasicTableProps<T> {
   
   // Loading & empty states
   isLoading?: boolean
+  skeletonRowCount?: number
+  skeletonColumnCount?: number
   noDataMessage?: string
   
   // Pagination
   page?: number
+  pageSize?: number
   setPage?: (page: number) => void
+  onPageChange?: (page: number) => void
   total?: number
   totalPages?: number
   
