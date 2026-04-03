@@ -11,25 +11,25 @@ const TableHeader: React.FC<TableHeaderProps> = ({ totalCount = 0, filters = [],
   return (
     <div className="space-y-6">
       {/* Total Count and Filters - Professional Layout */}
-      <div className="mb-5 flex flex-wrap xl:flex-row flex-col items-center justify-between gap-3">
+      <div className="mb-5 flex flex-col xl:flex-row items-start xl:items-center justify-between gap-4">
         {/* Total Count */}
-        <span className="font-semibold text-black-text xl:w-auto w-full">
+        {/* <span className="font-semibold text-black-text xl:w-auto w-full text-left">
           Total : {totalCount || 0}
-        </span>
+        </span> */}
 
         {/* Filters Section - Professional Design */}
-        <div className="flex flex-wrap items-center justify-between gap-4 xl:gap-7 sm:w-auto w-full">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-start gap-2 sm:gap-4 xl:gap-7 w-full sm:w-auto">
           {filters.length > 0 && <span className="text-sm font-medium text-black-text/60">Filter by:</span>}
 
-          <div className="flex flex-wrap items-center gap-3 xl:gap-4">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 xl:gap-4 w-full sm:w-auto">
             {filters.length > 0 && filters.map((filter) => {
                 if (filter.type === 'select') {
                   return (
-                    <div key={filter.key} className="relative inline-block">
+                    <div key={filter.key} className="relative inline-block w-full sm:w-auto">
                       <select
                         value={String(filter.value || '')}
                         onChange={(e) => filter.onChange(e.target.value)}
-                        className="appearance-none capitalize border border-light-border rounded-sm px-3 py-2 pr-8 text-black-text/80 text-[13px] bg-white hover:border-gray-400 focus:outline-none focus:ring-1 focus:ring-yellow-400 transition-colors cursor-pointer"
+                        className="w-full sm:w-auto appearance-none capitalize border border-light-border rounded-sm px-3 py-2 pr-8 text-black-text/80 text-[13px] bg-white hover:border-gray-400 focus:outline-none focus:ring-1 focus:ring-yellow-400 transition-colors cursor-pointer"
                       >
                         <option value="">{filter.label}</option>
                         {filter.options?.map((opt) => (
@@ -66,7 +66,7 @@ const TableHeader: React.FC<TableHeaderProps> = ({ totalCount = 0, filters = [],
                           : String(filter.value || '')
                       }
                       onChange={(e) => filter.onChange(e.target.value)}
-                      className="border border-light-border rounded-sm px-3 py-2 text-black-text/80 text-[13px] bg-white hover:border-gray-400 focus:outline-none focus:ring-1 focus:ring-yellow-400 transition-colors cursor-pointer"
+                      className="w-full sm:w-auto border border-light-border rounded-sm px-3 py-2 text-black-text/80 text-[13px] bg-white hover:border-gray-400 focus:outline-none focus:ring-1 focus:ring-yellow-400 transition-colors cursor-pointer"
                       placeholder="mm/dd/yyyy"
                     />
                   );
@@ -108,7 +108,7 @@ const TableHeader: React.FC<TableHeaderProps> = ({ totalCount = 0, filters = [],
                         placeholder={filter.placeholder || filter.label}
                         value={String(filter.value || '')}
                         onChange={(e) => filter.onChange(e.target.value)}
-                        className="w-full text-xs border border-light-border rounded-sm pl-9 pr-3 py-2 h-9 text-black-text/80 bg-white placeholder-gray-400 hover:border-gray-400 focus:outline-none focus:ring-1 focus:ring-yellow-400 transition-colors"
+                        className="w-full text-xs border border-light-border rounded-sm pl-9 pr-3 py-2 h-9 max-[320px]:!pl-9 text-black-text/80 bg-white placeholder-gray-400 hover:border-gray-400 focus:outline-none focus:ring-1 focus:ring-yellow-400 transition-colors"
                       />
                     </div>
                   );

@@ -111,7 +111,9 @@ interface BasicTableProps<T> {
   isLoading?: boolean;               // Loading state
   noDataMessage?: string;            // Empty state message
   page?: number;                     // Current page
-  setPage?: (page: number) => void;  // Page change handler
+  pageSize?: number;                 // Number of items per page (enables client-side pagination)
+  setPage?: (page: number) => void;  // Page change handler (state-controlled)
+  onPageChange?: (page: number) => void; // Optional handler for API fetches
   total?: number;                    // Total records
   totalPages?: number;               // Total pages
   tableHeader?: TableHeaderConfig;   // Header with filters
@@ -254,18 +256,51 @@ const handleSort = (key: string, order: 'asc' | 'desc') => {
 
 ### With Pagination
 
+The library supports two modes of pagination: **Server-side** (controlled state) and automatic **Client-side** pagination out-of-the-box.
+
+#### Server-Side / API Pagination
+Use `onPageChange` to fetch remote data when clicking pages.
+
 ```typescript
-const [page, setPage] = useState(1);
-const [data, setData] = useState([]);
-const totalPages = Math.ceil(totalRecords / pageSize);
+const fetchPageData = (newPage: number) => {
+  // API Call logic
+  console.log('Fetching data for page:', newPage);
+};
 
 <BasicTable
-  page={page}
-  setPage={setPage}
-  total={totalRecords}
-  totalPages={totalPages}
-  data={data}
+  data={paginatedDataFromServer}
+  total={100}
+  totalPages={10}
+  onPageChange={fetchPageData}
   {...props}
+/>
+```
+
+#### Auto Client-Side Pagination
+If you already have your full array of data, simply pass `pageSize`. The table will automatically handle the chunking and internal page tracking without needing extra state parameters!
+
+```typescript
+const fullDataList = [...]; // 100 items
+
+<BasicTable
+  data={fullDataList}
+  total={fullDataList.length}
+  pageSize={10} 
+  {...props}
+/>
+```
+
+### With Loading States (Skeleton Loader)
+
+The `BasicTable` comes with built-in, beautifully animated skeleton loaders for immediate visual feedback when your data is loading. The component is instantly responsive, automatically syncing its skeleton columns to match your exact configuration natively.
+
+```typescript
+<BasicTable
+  isLoading={true}            // Displays the skeleton loader
+  skeletonRowCount={10}       // Optional: Overrides the default of 5 rows
+  skeletonColumnCount={8}     // Optional: Overrides the automatic column detection
+  columns={columns}
+  data={[]}
 />
 ```
 

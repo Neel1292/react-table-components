@@ -5,7 +5,7 @@ function ViewFilters({
   fetchData,
 }: any) {
   return (
-    <>
+    <div className="flex flex-wrap items-center gap-2 w-full">
       {Object.values(selectedFilters).map((filter: any) => (
         <button
           key={filter._id}
@@ -16,11 +16,11 @@ function ViewFilters({
               return updated;
             });
           }}
-          className="px-2 py-1 rounded-[2px] font-normal border border-[#E7E4DA] text-[#0E0F0C99] text-[12px] inline-flex items-center gap-2 hover:bg-[#EDEBE6]"
+          className="px-2 py-1 rounded-[2px] font-normal border border-[#E7E4DA] text-[#0E0F0C99] text-[12px] inline-flex items-center gap-2 hover:bg-[#EDEBE6] whitespace-nowrap"
         >
           {filter.name}
           <svg
-            className="cursor-pointer"
+            className="cursor-pointer flex-shrink-0"
             width="10"
             height="10"
             viewBox="0 0 10 10"
@@ -38,12 +38,12 @@ function ViewFilters({
       {Object.values(selectedFilters).some((f: any) => f.type !== "search") && (
         <button
           onClick={handleApplyFilter}
-          className="flex items-center justify-center gap-2 bg-black-text text-white px-4 py-1 rounded-sm text-sm font-medium sm:w-auto w-full"
+          className="flex items-center justify-center gap-2 bg-black-text text-white px-4 py-1 rounded-sm text-sm font-medium w-full sm:w-auto"
         >
           Apply Filters
         </button>
       )}
-    </>
+    </div>
   );
 }
 

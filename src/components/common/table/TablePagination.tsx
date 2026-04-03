@@ -7,16 +7,24 @@ interface Props {
 }
 
 const getPaginationNumbers = (totalPages: number, currentPage: number) => {
-  const delta = 2;
-  const range = [];
-  for (let i = Math.max(2, currentPage - delta); i <= Math.min(totalPages - 1, currentPage + delta); i++) {
-    range.push(i);
+  const totalNumbers = 7;
+  
+  if (totalPages <= totalNumbers) {
+    return Array.from({ length: totalPages }, (_, i) => i + 1);
   }
-  if (currentPage - delta > 2) range.unshift("...");
-  if (currentPage + delta < totalPages - 1) range.push("...");
-  range.unshift(1);
-  if (totalPages > 1) range.push(totalPages);
-  return range;
+
+  const isStart = currentPage <= 4;
+  const isEnd = currentPage >= totalPages - 3;
+
+  if (isStart) {
+    return [1, 2, 3, 4, 5, "...", totalPages];
+  }
+
+  if (isEnd) {
+    return [1, "...", totalPages - 4, totalPages - 3, totalPages - 2, totalPages - 1, totalPages];
+  }
+
+  return [1, "...", currentPage - 1, currentPage, currentPage + 1, "...", totalPages];
 };
 
 const TablePagination = ({
@@ -27,15 +35,15 @@ const TablePagination = ({
   dataLength = 0
 }: Props) => {
   return (
-    <div className="flex flex-wrap items-center justify-between gap-3 mt-4 lg:mt-2">
-      <span className="text-black-text/60 text-xs text-center sm:text-left">
+    <div className="flex flex-col sm:flex-row items-center justify-between gap-3 mt-4 lg:mt-2">
+      <span className="text-black-text/60 text-xs text-center sm:text-left w-full sm:w-auto">
         Showing {dataLength} results out of {total}
       </span>
 
-      <div className="flex items-center gap-1 sm:gap-5">
+      <div className="flex items-center gap-1 sm:gap-5 w-full sm:w-auto justify-center">
         {/* Prev Button */}
         <div
-          className={`md:px-5 py-0 sm:py-2 p-3 px-1 cursor-pointer ${
+          className={`px-2 sm:px-3 md:px-5 py-2 cursor-pointer ${
             page === 1 ? "opacity-50 pointer-events-none" : ""
           }`}
           onClick={() => setPage?.(Math.max(page - 1, 1))}
@@ -51,19 +59,19 @@ const TablePagination = ({
         </div>
 
         {/* Numbers */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1 sm:gap-2">
           {getPaginationNumbers(totalPages, page).map((p, index) =>
             p === "..." ? (
               <div
                 key={`dots-${index}`}
-                className="px-2 sm:px-4 py-0 sm:py-2 p-2 text-black-text/60 cursor-default select-none"
+                className="px-2 sm:px-3 py-2 text-black-text/60 cursor-default select-none text-sm"
               >
                 ...
               </div>
             ) : (
               <div
                 key={p}
-                className={`px-2 sm:px-4 py-0 sm:py-2 p-2 cursor-pointer ${
+                className={`px-2 sm:px-3 py-2 cursor-pointer text-sm ${
                   page === p
                     ? "text-black-text font-medium"
                     : "text-black-text/60"
@@ -78,7 +86,7 @@ const TablePagination = ({
 
         {/* Next Button */}
         <div
-          className={`md:px-5 py-0 sm:py-2 p-3 px-1 rotate-180 cursor-pointer ${
+          className={`px-2 sm:px-3 md:px-5 py-2 rotate-180 cursor-pointer ${
             page === totalPages ? "opacity-50 pointer-events-none" : ""
           }`}
           onClick={() => setPage?.(Math.min(page + 1, totalPages))}

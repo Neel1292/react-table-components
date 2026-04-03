@@ -16,33 +16,14 @@ export function TableTestPage() {
   const [sortBy, setSortBy] = useState('');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
 
-  // Test Data
-  const testData: TestProduct[] = [
-    {
-      id: 1,
-      name: 'Product A',
-      price: 100,
-      rating: 4.5,
-      createdDate: '2026-01-15',
-      status: 'active',
-    },
-    {
-      id: 2,
-      name: 'Product B',
-      price: 250,
-      rating: 3.8,
-      createdDate: '2026-02-20',
-      status: 'active',
-    },
-    {
-      id: 3,
-      name: 'Product C',
-      price: 75,
-      rating: 4.2,
-      createdDate: '2026-03-10',
-      status: 'inactive',
-    },
-  ];
+  const testData: TestProduct[] = Array.from({ length: 12 }, (_, i) => ({
+    id: i + 1,
+    name: `Product ${String.fromCharCode(65 + i)}`,
+    price: (i + 1) * 15,
+    rating: 3.5 + (i % 5) * 0.3,
+    createdDate: `2026-0${(i % 9) + 1}-15`,
+    status: i % 3 === 0 ? 'inactive' : 'active',
+  }));
 
   // Define Columns with Various Features
   const columns: Column<TestProduct>[] = [
@@ -132,9 +113,8 @@ export function TableTestPage() {
           sortBy={sortBy}
           sortOrder={sortOrder}
           onSort={handleSort}
+          pageSize={5}
           total={testData.length}
-          totalPages={1}
-          page={1}
           isLoading={false}
           noDataMessage="No products found"
         />

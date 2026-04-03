@@ -390,3 +390,76 @@ input::-webkit-file-upload-button {
         bottom: 8px !important;
     }
 }
+
+/* Mobile Table Responsive Improvements */
+@media screen and (max-width: 640px) {
+    /* Ensure table scrolls smoothly on mobile */
+    .overflow-x-auto {
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: thin;
+    }
+
+    /* Custom scrollbar for mobile */
+    .overflow-x-auto::-webkit-scrollbar {
+        height: 6px;
+    }
+
+    .overflow-x-auto::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 10px;
+    }
+
+    .overflow-x-auto::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 10px;
+    }
+
+    .overflow-x-auto::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
+
+    /* Reduce padding on mobile for table cells */
+    table thead th,
+    table tbody td {
+        font-size: 12px;
+    }
+
+    /* Ensure proper spacing for mobile filters */
+    select, input[type="text"], input[type="date"] {
+        font-size: 13px;
+        min-height: 38px;
+    }
+}
+
+/* Extra small screens (375px and below) */
+@media screen and (max-width: 375px) {
+    /* Further reduce font sizes for very small screens */
+    table thead th,
+    table tbody td {
+        font-size: 11px;
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+
+    /* Adjust input sizes */
+    select, input[type="text"], input[type="date"] {
+        font-size: 12px;
+        padding: 8px 10px;
+    }
+
+    /* Reduce container padding */
+    .bg-\[#F7F6F4\] {
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+}
+
+/* Tablet responsive improvements */
+@media screen and (min-width: 641px) and (max-width: 1024px) {
+    /* Adjust table padding for tablets */
+    table thead th,
+    table tbody td {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+}

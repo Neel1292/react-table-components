@@ -1,32 +1,18 @@
-function TableLoader({ tableHeader, rowCount = 5 }: any) {
+function TableLoader({ columns = 5, rowCount = 5 }: { columns?: number, rowCount?: number }) {
   return (
     <>
-      <div className="responsive-table">
-        <table>
-          <thead>
-            <tr>
-              {tableHeader?.map((heading: string, index: number) => (
-                <th key={`${index}-${heading.slice(0, 3)}`}>{heading}</th>
-              ))}
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            {[...Array(rowCount)].map((_, rowIdx) => (
-              <tr key={rowIdx} className="animate-pulse">
-                {tableHeader?.map((_: any, colIdx: number) => (
-                  <td key={colIdx} className="py-3">
-                    <div className="h-4 bg-gray-200 rounded w-3/4 mx-auto"></div>
-                  </td>
-                ))}
-                <td>
-                  <div className="h-4 w-4 bg-gray-200 rounded mx-auto"></div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      {[...Array(rowCount)].map((_, rowIdx) => (
+        <tr key={rowIdx} className="bg-white">
+          {[...Array(columns)].map((_, colIdx) => (
+            <td 
+              key={colIdx} 
+              className="px-3 sm:px-5 py-[16px] first:rounded-l-[2px] first:border-l first:border-[#CDCDCD] last:rounded-r-[2px]"
+            >
+              <div className={`h-4 bg-gray-200 rounded-md animate-pulse ${colIdx === columns - 1 ? 'w-8 ml-auto' : 'w-3/4'}`}></div>
+            </td>
+          ))}
+        </tr>
+      ))}
     </>
   );
 }

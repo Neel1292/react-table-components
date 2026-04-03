@@ -139,14 +139,14 @@ const CommonFilter: React.FC<Props> = ({ filters, onClear }) => {
   };
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2  sm:flex sm:flex-wrap items-center gap-3 w-full sm:w-auto">
+    <div className="flex flex-row flex-wrap items-center gap-3 w-full">
       {filters.map((filter: any) => {
         switch (filter.type) {
           case FilterType.SELECT:
             return (
-              <div key={filter.key} className="relative w-full sm:w-auto">
+              <div key={filter.key} className="relative flex-1 sm:flex-initial sm:w-auto sm:min-w-[160px]">
                 <select
-                  className="appearance-none sm:w-auto capitalize w-full border border-light-border rounded-sm px-3 py-2 pr-7 text-black-text/80 text-[13px] bg-white focus:outline-none focus:ring-1 focus:ring-gray-300"
+                  className="appearance-none w-full capitalize border border-light-border rounded-sm px-3 py-2 pr-7 text-black-text/80 text-[13px] bg-white focus:outline-none focus:ring-1 focus:ring-gray-300"
                   value={filter.value || ""}
                   onChange={(e: any) => filter.changeFunc(e)}
                 >
@@ -182,21 +182,23 @@ const CommonFilter: React.FC<Props> = ({ filters, onClear }) => {
             return (
               <div
                 key={filter.key}
-                className="relative flex items-center w-full sm:w-64"
+                className="relative flex items-center flex-1 sm:flex-initial sm:min-w-[200px] sm:max-w-[300px]"
               >
-                {filter.icon}
+                <span className="absolute left-2 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none flex items-center">
+                  {filter.icon}
+                </span>
                 <input
                   type="text"
                   placeholder={filter.placeholder}
                   value={filter.value ?? ""}
                   onChange={(e: any) => filter.changeFunc(e)}
-                  className="w-full text-xs border border-light-border rounded-sm pl-8 pr-4 py-2 h-[37px] text-black-text/80 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-300"
+                  className="w-full text-xs sm:text-sm border border-light-border rounded-sm pl-8 pr-4 py-2 h-[37px] text-black-text/80 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-300"
                 />
               </div>
             );
           case FilterType.DATE:
             return (
-              <div key={filter.key} className="relative w-full sm:w-auto">
+              <div key={filter.key} className="relative flex-1 sm:flex-initial sm:w-auto sm:min-w-[160px]">
                 <div className="relative">
                   <svg
                     className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2 pointer-events-none"
@@ -231,8 +233,7 @@ const CommonFilter: React.FC<Props> = ({ filters, onClear }) => {
                       hid.focus();
                       hid.click();
                     }}
-                    className="border border-light-border rounded-sm pl-10 pr-3 py-2 text-[#737373] text-[13px] bg-white focus:outline-none focus:ring-1 focus:ring-gray-300 cursor-pointer"
-                  // style={{ width: "140px" }}
+                    className="w-full border border-light-border rounded-sm pl-10 pr-3 py-2 text-[#737373] text-[13px] bg-white focus:outline-none focus:ring-1 focus:ring-gray-300 cursor-pointer"
                   />
                   <input
                     ref={(el: HTMLInputElement | null) => {
@@ -268,7 +269,7 @@ const CommonFilter: React.FC<Props> = ({ filters, onClear }) => {
             return (
               <div
                 key={filter.key}
-                className="relative w-full sm:w-auto"
+                className="relative flex-1 sm:flex-initial sm:w-auto sm:min-w-[160px]"
                 ref={(el: HTMLInputElement | null) => {
                   refs.current[filter.key] = el;
                 }}
@@ -281,7 +282,7 @@ const CommonFilter: React.FC<Props> = ({ filters, onClear }) => {
                       [filter.key]: !prev[filter.key],
                     }))
                   }
-                  className="sm:w-auto w-full border border-light-border rounded-sm px-3 py-2 text-[#737373] text-[13px] bg-white flex items-center gap-2 justify-between cursor-pointer"
+                  className="w-full border border-light-border rounded-sm px-3 py-2 text-[#737373] text-[13px] bg-white flex items-center gap-2 justify-between cursor-pointer"
                 >
                   <span>
                     {monthLabel(filter.value) ||
@@ -401,7 +402,7 @@ const CommonFilter: React.FC<Props> = ({ filters, onClear }) => {
               })
               : "";
             return (
-              <div key={filter.key} className="relative w-full sm:w-auto">
+              <div key={filter.key} className="relative flex-1 sm:flex-initial sm:w-auto sm:min-w-[200px]">
                 <div className="relative">
                   <svg
                     className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2 pointer-events-none"
@@ -439,14 +440,12 @@ const CommonFilter: React.FC<Props> = ({ filters, onClear }) => {
                         [filter.key]: !prev[filter.key],
                       }))
                     }
-                    // style={{ width: "140px" }}
-                    className="sm:w-auto w-full border border-light-border rounded-sm pl-10 pr-3 py-2 text-[#737373] text-[13px] bg-white focus:outline-none focus:ring-1 focus:ring-gray-300 cursor-pointer"
+                    className="w-full border border-light-border rounded-sm pl-10 pr-3 py-2 text-[#737373] text-[13px] bg-white focus:outline-none focus:ring-1 focus:ring-gray-300 cursor-pointer truncate"
                   />
                 </div>
                 {openRange[filter.key] && (
                   <div
-                    className="absolute z-50 mt-2 p-2"
-                    // style={{ width: 300 }}
+                    className="absolute z-50 mt-2 p-2 left-0 sm:left-auto"
                     ref={(el) => {
                       refs.current[filter.key] = el;
                     }}
@@ -502,7 +501,7 @@ const CommonFilter: React.FC<Props> = ({ filters, onClear }) => {
       })}
 
       {anyFilterActive && (
-        <div className="flex items-center col-span-2 sm:col-span-1 sm:ml-2 justify-end sm:justify-start">
+        <div className="flex items-center flex-shrink-0">
           <button
             onClick={() => {
               filters.forEach((f) => {
@@ -524,7 +523,7 @@ const CommonFilter: React.FC<Props> = ({ filters, onClear }) => {
               if (onClear) onClear();
             }}
             type="button"
-            className="border px-4 py-2 rounded-md text-sm border-light-border bg-white flex items-center gap-2 hover:bg-gray-50"
+            className="w-full sm:w-auto border px-4 py-2 rounded-md text-sm border-light-border bg-white flex items-center justify-center gap-2 hover:bg-gray-50"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"

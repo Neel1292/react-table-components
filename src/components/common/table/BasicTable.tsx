@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { BasicTableProps, Column } from "./types";
 import TablePagination from "./TablePagination";
 import TableLoader from "../../loader/TableLoader";
@@ -10,8 +10,12 @@ function BasicTable<T>({
   data,
   actionColumn,
   isLoading,
+  skeletonRowCount,
+  skeletonColumnCount,
   page,
+  pageSize,
   setPage,
+  onPageChange,
   total,
   totalPages,
   noDataMessage = "No data found",
@@ -22,6 +26,27 @@ function BasicTable<T>({
 }: BasicTableProps<T>) {
   const [sortBy, setSortBy] = useState(initialSortBy);
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>(initialSortOrder);
+  const [currentPage, setCurrentPage] = useState(page || 1);
+
+  useEffect(() => {
+    if (page !== undefined) {
+      setCurrentPage(page);
+    }
+  }, [page]);
+
+  const handlePageChange = (newPage: number) => {
+    setCurrentPage(newPage);
+    if (setPage) setPage(newPage);
+    if (onPageChange) onPageChange(newPage);
+  };
+
+  const isClientSide = !onPageChange && !setPage && data.length > 0 && !!pageSize;
+  const actualTotalPages = isClientSide ? Math.ceil(data.length / pageSize) : totalPages;
+  const actualTotal = isClientSide ? data.length : total;
+
+  const displayData = isClientSide
+    ? data.slice((currentPage - 1) * pageSize, currentPage * pageSize)
+    : data;
 
   const handleSort = (column: Column<T>) => {
     if (!column.sortable) return;
@@ -100,7 +125,7 @@ function BasicTable<T>({
   const totalColsCount = columns.length + actionColsCount;
 
   return (
-    <div className="w-full pt-5">
+    <div className="w-full pt-5 px-4 xl:px-0">
       {/* Render table header with Total and Filters if provided */}
       {tableHeader && (
         <TableHeader
@@ -111,15 +136,15 @@ function BasicTable<T>({
       )}
 
       {/* Table Container */}
-      <div className="bg-[#F7F6F4] rounded-2xl sm:px-[28px] px-[10px] py-[16px] w-auto mt-6">
-        <div className="overflow-x-auto whitespace-nowrap">
-          <table className="border-separate border-spacing-y-[5px] w-full text-sm table-auto">
+      <div className="bg-[#F7F6F4] rounded-2xl sm:px-[28px] px-[10px] py-[16px] w-full mt-6">
+        <div className="overflow-x-auto -mx-[10px] sm:mx-0 px-[10px] sm:px-0">
+          <table className="border-separate border-spacing-y-[5px] w-full text-sm table-auto min-w-[640px]">
             <thead>
               <tr>
               {columns.map((col, i) => (
                 <th
                   key={i}
-                  className={`text-xs font-normal text-start text-[#525151] px-5 pb-3 pt-3 ${getAlignmentClass(col.alignment)}`}
+                  className={`text-xs font-normal text-start text-[#525151] px-3 sm:px-5 pb-3 pt-3 whitespace-nowrap ${getAlignmentClass(col.alignment)}`}
                   style={getColumnWidth(col)}
                 >
                   {renderHeaderContent(col)}
@@ -127,7 +152,7 @@ function BasicTable<T>({
               ))}
 
             {actionColumn?.show && (
-              <th className={`text-xs font-normal text-start text-[#525151] px-5 pb-3 pt-3 ${getAlignmentClass(actionColumn.alignment)}`}>
+              <th className={`text-xs font-normal text-start text-[#525151] px-3 sm:px-5 pb-3 pt-3 ${getAlignmentClass(actionColumn.alignment)}`}>
               </th>
             )}
           </tr>
@@ -135,8 +160,11 @@ function BasicTable<T>({
 
         <tbody>
           {isLoading ? (
-            <TableLoader columns={totalColsCount} />
-          ) : data.length === 0 ? (
+            <TableLoader 
+               columns={skeletonColumnCount || totalColsCount} 
+               rowCount={skeletonRowCount || 5} 
+            />
+          ) : displayData.length === 0 ? (
             <tr>
               <td
                 colSpan={totalColsCount}
@@ -146,7 +174,7 @@ function BasicTable<T>({
               </td>
             </tr>
           ) : (
-            data.map((row, rowIndex) => (
+            displayData.map((row, rowIndex) => (
               <tr
                 key={rowIndex}
                 className="bg-white"
@@ -154,7 +182,7 @@ function BasicTable<T>({
                 {columns.map((col, colIndex) => (
                   <td
                     key={colIndex}
-                    className={`text-sm font-normal text-start text-[#737373] px-5 py-[9px] first:rounded-l-[2px] first:border-l first:border-[#CDCDCD] last:rounded-r-[2px] ${getAlignmentClass(col.alignment)} ${col.className || ''}`}
+                    className={`text-xs sm:text-sm font-normal text-start text-[#737373] px-3 sm:px-5 py-[9px] first:rounded-l-[2px] first:border-l first:border-[#CDCDCD] last:rounded-r-[2px] ${getAlignmentClass(col.alignment)} ${col.className || ''}`}
                     style={getColumnWidth(col)}
                   >
                     <div className="flex items-center">
@@ -167,7 +195,7 @@ function BasicTable<T>({
                 ))}
 
                 {actionColumn?.show && (
-                  <td className={`text-sm font-normal text-start text-[#737373] px-5 py-[9px] last:rounded-r-[2px] cursor-pointer ${getAlignmentClass(actionColumn.alignment)}`}>
+                  <td className={`text-xs sm:text-sm font-normal text-start text-[#737373] px-3 sm:px-5 py-[9px] last:rounded-r-[2px] cursor-pointer ${getAlignmentClass(actionColumn.alignment)}`}>
                     {actionColumn.customRender ? (
                       actionColumn.customRender(row, actionColumn.actions || [])
                     ) : (
@@ -176,7 +204,7 @@ function BasicTable<T>({
                           <li
                             key={action.type}
                             onClick={() => action.onClick(row)}
-                            className={`px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer ${action.className || ''}`}
+                            className={`px-4 py-2 text-xs sm:text-sm hover:bg-gray-100 cursor-pointer ${action.className || ''}`}
                           >
                             <span className="inline-flex items-center gap-2">
                               {action.icon}
@@ -195,13 +223,13 @@ function BasicTable<T>({
       </table>
       </div>
 
-      {totalPages && totalPages > 1 && (
+      {actualTotalPages && actualTotalPages > 1 && (
         <TablePagination
-          page={page || 1}
-          setPage={setPage}
-          totalPages={totalPages}
-          total={total as number}
-          dataLength={data?.length}
+          page={currentPage}
+          setPage={handlePageChange}
+          totalPages={actualTotalPages}
+          total={actualTotal as number}
+          dataLength={displayData?.length}
         />
       )}
       </div>
